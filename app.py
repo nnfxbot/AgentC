@@ -49,7 +49,6 @@ if prompt := st.chat_input("What is up?"):
         message = response.choices[0].get("message")
         st.markdown(message.content)
         st.session_state.messages.append(message)
-        st.write(response)
 
 with st.expander("Chat History"):
   st.write(st.session_state.messages)
