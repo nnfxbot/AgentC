@@ -2,6 +2,9 @@ import openai
 import streamlit as st
 from functions import *
 import json
+import streamlit_analytics
+
+streamlit_analytics.start_tracking()
 
 st.set_page_config(layout="wide")
 st.markdown("""
@@ -69,5 +72,7 @@ if prompt := st.chat_input("What is up?"):
 #Keep the last messages according to max history limit
 if len(st.session_state.messages) > st.session_state.max_history:
     st.session_state.messages = [st.session_state.messages[0]] + st.session_state.messages[-st.session_state.max_history:]
+
+streamlit_analytics.stop_tracking()
 
 
