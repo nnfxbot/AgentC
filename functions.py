@@ -40,7 +40,7 @@ def handle_function_call(function_call):
 functions = [
     {
       "name": "search",
-      "description": "search the web for up to date info",
+      "description": "search the web for up to date info. when responding always include a link to the source and the date of the source if available.",
       "parameters": {
         "type": "object",
         "properties": {
