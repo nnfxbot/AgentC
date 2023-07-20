@@ -9,9 +9,7 @@ streamlit_analytics.start_tracking()
 st.set_page_config(layout="wide")
 st.markdown("""
 <style>
-    [data-testid=stSidebar] {
-        background-color: #000000;
-    }
+    [data-testid=stSidebar] {background-color: #000000;}
 </style>
 """, unsafe_allow_html=True)
 
