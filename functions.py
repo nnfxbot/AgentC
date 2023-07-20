@@ -5,7 +5,7 @@ import json
 def search(query):
     api_url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
-    params = {"q": query,"count":3}
+    params = {"q": query,"count":5}
     try:
         response = requests.get(api_url, headers=headers, params=params)
         if response.status_code == 200:
