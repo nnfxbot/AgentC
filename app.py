@@ -15,7 +15,8 @@ st.markdown("""
 
 sys_msg = """Role: Expert coder
 Tone: Casual
-Format: Bullet points"""
+Format: Bullet points
+Length of response: under 100 tokens"""
 
 
 
@@ -25,7 +26,6 @@ with st.sidebar:
         st.session_state.messages = [{"role":"system", "content":st.session_state.system_message}]
     st.session_state.openai_model = st.selectbox("Model", options = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k"])
     st.session_state.max_history = st.slider("Max History", 2, 10, 2, 1)
-    st.image("Logo.png", width = 250)
     st.markdown(">## Created by AC ")
     
 
@@ -33,7 +33,7 @@ st.title("Agent C")
 
 #Initialise session state variables
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role":"system", "content":st.session_state.system_message}]
+    st.session_state.messages = {"role":"system","content":sys_msg}]
     st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 #Display messages in chat history
@@ -72,6 +72,8 @@ if prompt := st.chat_input("What is up?"):
         st.json(response, expanded = False)
         messages.append(message)
 
+with st.expander("messages"):
+    st.write(messages)
 #Keep the last messages according to max history limit
 max_history = st.session_state.max_history 
 if len(messages) > max_history:
