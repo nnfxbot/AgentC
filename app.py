@@ -33,7 +33,7 @@ st.title("Agent C")
 
 #Initialise session state variables
 if "messages" not in st.session_state:
-    st.session_state.messages = {"role":"system","content":sys_msg}]
+    st.session_state.messages = [{"role":"system","content":sys_msg}]
     st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 #Display messages in chat history
