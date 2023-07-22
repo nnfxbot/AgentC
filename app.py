@@ -72,14 +72,15 @@ if prompt := st.chat_input("What is up?"):
         st.json(response, expanded = False)
         messages.append(message)
 
-with st.expander("messages"):
-    st.write(messages)
 #Keep the last messages according to max history limit
 max_history = st.session_state.max_history 
 if len(messages) > max_history:
     messages = [messages[0]] + messages[-max_history:]
-st.session_state.messages = messages
 
+with st.expander("messages"):
+    st.session_state.messages = messages
+    st.write(st.session_state.messages)
+    
 streamlit_analytics.stop_tracking()
 
 
