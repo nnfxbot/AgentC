@@ -1,19 +1,11 @@
 import requests
-from newspaper import Article, fulltext
 import os
 import json
-
-def read_article(url):
-    article = Article("url")
-    article.download()
-    article.parse()
-    return article.text
-    
 
 def search(query):
     api_url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
-    params = {"q": query,"count":5}
+    params = {"q": query,"count":10}
     try:
         response = requests.get(api_url, headers=headers, params=params)
         if response.status_code == 200:
@@ -60,20 +52,6 @@ functions = [
           }
         },
         "required": ["query"]
-      }
-    },
-    {
-      "name": "read_article",
-      "description": "read the text of a given url.",
-      "parameters": {
-        "type": "object",
-        "properties": {
-          "url": {
-            "type": "string",
-            "description": "url to read"
-          }
-        },
-        "required": ["url"]
       }
     }
   ]
