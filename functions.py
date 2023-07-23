@@ -2,7 +2,7 @@ import requests
 import os
 import json
 
-def search(query):
+def search_web(query):
     api_url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
     params = {"q": query,"count":10}
@@ -32,8 +32,8 @@ def search(query):
 
 def handle_function_call(function_call):
     args = json.loads(function_call.arguments)
-    if function_call.name == "search":
-        return search(**args)
+    if function_call.name == "search_web":
+        return search_web(**args)
     elif function_call.name == "read_article":
         return read_article(**args)
     else:
@@ -41,8 +41,8 @@ def handle_function_call(function_call):
 
 functions = [
     {
-      "name": "search",
-      "description": "search the web for up to date info. when responding always include a link to the source and the date of the source if available in the format [url][date].",
+      "name": "search_web",
+      "description": "Search the web for up to date info. Only use this function when specifically asked to search_web. when responding always include a link to the source and the date of the source if available in the format [url][date].",
       "parameters": {
         "type": "object",
         "properties": {
