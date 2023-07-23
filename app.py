@@ -16,9 +16,7 @@ st.markdown("""
 sys_msg = """Role: Expert coder
 Tone: Casual
 Format: Bullet points
-Length of response: under 100 tokens"""
-
-
+"""
 
 with st.sidebar:
     st.session_state.system_message = st.text_area("System message", height = 150, value = sys_msg)
@@ -28,7 +26,6 @@ with st.sidebar:
     st.session_state.max_history = st.slider("Max History", 2, 10, 2, 1)
     st.markdown(">## Created by AC ")
     
-
 st.title("Agent C")
 
 #Initialise session state variables
@@ -50,8 +47,9 @@ if prompt := st.chat_input("What is up?"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
+        model = "gpt-3.5-turbo-16k" if len(str(messages)) > 12000 else st.session_state.openai_model
         response = openai.ChatCompletion.create(
-            model=st.session_state["openai_model"],
+            model=model,
             messages=messages,
             functions = functions,
             function_call = "auto")
@@ -62,8 +60,9 @@ if prompt := st.chat_input("What is up?"):
             st.json(result, expanded = False)
             messages.append({"role":"function", "name": function_call.name,
                 "content": json.dumps(result)})
+            model = "gpt-3.5-turbo-16k" if len(str(messages)) > 12000 else st.session_state.openai_model
             response = openai.ChatCompletion.create(
-                model=st.session_state["openai_model"],
+                model=model,
                 messages=messages,
                 functions = functions,
                 function_call = "auto")   
