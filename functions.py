@@ -1,6 +1,14 @@
 import requests
+from newspaper import Article, fulltext
 import os
 import json
+
+def read_article(url):
+    article = Article("url")
+    article.download()
+    article.parse()
+    return article.text
+    
 
 def search(query):
     api_url = "https://api.search.brave.com/res/v1/web/search"
@@ -50,6 +58,20 @@ functions = [
           }
         },
         "required": ["query"]
+      }
+    },
+    {
+      "name": "read_article",
+      "description": "read the text of a given url.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "url to read"
+          }
+        },
+        "required": ["url"]
       }
     }
   ]
