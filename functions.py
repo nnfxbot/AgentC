@@ -3,28 +3,24 @@ import os
 import json
 
 def search_web(query):
-    api_url = "https://api.search.brave.com/res/v1/web/search"
+    url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
-    params = {"q": query,"count":10}
+    params = {"q": query}
     try:
-        response = requests.get(api_url, headers=headers, params=params)
+        response = requests.get(url, headers=headers, params=params)
         if response.status_code == 200:
             data = response.json()
-            result = []
-            for item in data["web"]["results"]:
-                title = item["title"]
-                url = item["url"]
-                description = item["description"]
-                age = item.get("age", "")
-                extra_snippets = item.get("extra_snippets", [])
-                result.append({
-                    "title": title,
-                    "url": url,
-                    "description": description,
-                    "age": age,
-                    "extra_snippets": extra_snippets
-                })
-            return result
+            result = [
+                {
+                    "title": item["title"],
+                    "url": item["url"],
+                    "description": item["description"],
+                    "age": item.get("age", ""),
+                    "extra_snippets": item.get("extra_snippets", [])
+                }
+                for item in data["web"]["results"]
+            ]
+            return json.dumps(result)
         else:
             print("An error occurred. Status code:", response.status_code)
     except requests.exceptions.RequestException as e:
@@ -34,8 +30,6 @@ def handle_function_call(function_call):
     args = json.loads(function_call.arguments)
     if function_call.name == "search_web":
         return search_web(**args)
-    elif function_call.name == "read_article":
-        return read_article(**args)
     else:
         return f'Error calling {function_call.name}'
 
