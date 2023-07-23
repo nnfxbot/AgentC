@@ -59,7 +59,7 @@ if prompt := st.chat_input("What is up?"):
             result = handle_function_call(function_call)
             st.json(result, expanded = False)
             messages.append({"role":"function", "name": function_call.name,
-                "content": json.dumps(result)})
+                "content": result})
             model = "gpt-3.5-turbo-16k" if len(str(messages)) > 12000 else st.session_state.openai_model
             response = openai.ChatCompletion.create(
                 model=model,
