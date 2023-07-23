@@ -42,6 +42,8 @@ def handle_function_call(function_call):
     args = json.loads(function_call.arguments)
     if function_call.name == "search":
         return search(**args)
+    elif function_call.name == "read_article":
+        return read_article(**args)
     else:
         return f'Error calling {function_call.name}'
 
