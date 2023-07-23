@@ -57,7 +57,7 @@ if prompt := st.chat_input("What is up?"):
             function_call = "auto")
         while response.choices[0].finish_reason == "function_call" or len(messages) > 10:
             function_call = response.choices[0].message.function_call
-            st.markdown(function_call)
+            st.text(function_call)
             result = handle_function_call(function_call)
             st.json(result, expanded = False)
             messages.append({"role":"function", "name": function_call.name,
