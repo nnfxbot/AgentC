@@ -2,10 +2,10 @@ import requests
 import os
 import json
 
-def search_web(query):
+def search_web(query, freshness="pm"):
     url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
-    params = {"q": query}
+    params = {"q": query, "freshness": freshness}
     try:
         response = requests.get(url, headers=headers, params=params)
         if response.status_code == 200:
@@ -43,6 +43,10 @@ functions = [
           "query": {
             "type": "string",
             "description": "query to search for"
+          },
+          "freshness": {
+            "type": "string",
+            "description": "Filters search results by when they were discovered. Defaults to pm. The following time deltas are supported: pd Discovered in last 24 hours. pw Discovered in last 7 Days. pm Discovered in last 31 Days. py Discovered in last 365 Days. "
           }
         },
         "required": ["query"]
