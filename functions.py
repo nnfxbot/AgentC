@@ -42,7 +42,7 @@ functions = [
         "properties": {
           "query": {
             "type": "string",
-            "description": "query to search for"
+            "description": "Given the user's question: "What arWrite a well-crafted search query that will gather comprehensive and up-to-date information on the users query. Consider using specific keywords and filters to ensure the search results include diverse perspectives and reliable sources. Please provide the search query in a format that maximizes the relevance and accuracy of the information retrieved."
           },
           "freshness": {
             "type": "string",
