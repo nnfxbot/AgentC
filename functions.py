@@ -5,7 +5,7 @@ import json
 def search_web(query, freshness="pm"):
     url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
-    params = {"q": query, "freshness": freshness}
+    params = {"q": query, "freshness": freshness,"text_decorations"=false }
     try:
         response = requests.get(url, headers=headers, params=params)
         if response.status_code == 200:
