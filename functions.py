@@ -36,7 +36,7 @@ def handle_function_call(function_call):
 functions = [
     {
       "name": "search_web",
-      "description": "Search the web for up to date info. Only use this function when specifically asked to search_web. be as comprehensive as you can when responding using as much information from the search results as possible and always include a link to the source and the date of the source if available in the format [url][date].",
+      "description": "Search the web for up to date info, always ask for permission before using this function. Only use this function when specifically asked to search_web. be as comprehensive as you can when responding using as much information from the search results as possible and always include a link to the source and the date of the source if available in the format [url][date].",
       "parameters": {
         "type": "object",
         "properties": {
