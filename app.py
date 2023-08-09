@@ -20,7 +20,7 @@ with st.sidebar:
     st.session_state.system_message = st.text_area("System message", height = 150, value = sys_msg)
     if st.button("Start new chat"):
         st.session_state.messages = [{"role":"system", "content":st.session_state.system_message}]
-    st.session_state.openai_model = st.selectbox("Model", options = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k"])
+    st.session_state.openai_model = st.selectbox("Model", options = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4"])
     st.session_state.max_history = st.slider("Max History", 2, 10, 2, 1)
     st.markdown(">## Created by AC ")
     
