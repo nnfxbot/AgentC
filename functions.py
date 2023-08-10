@@ -1,13 +1,14 @@
 import requests
 import os
 import json
+import openai
 
 def get_completion(model = "gpt-3.5-turbo", temperature = 0, messages = [], enable_functions = False):
     try:
         if enable_functions:
-            return = openai.ChatCompletion.create(model=model, messages=messages,functions = functions, function_call = "auto", temperature = temperature)
+            return openai.ChatCompletion.create(model=model, messages=messages,functions = functions, function_call = "auto", temperature = temperature)
         else:
-            return = openai.ChatCompletion.create(model=model, messages=messages, temperature = temperature)
+            return openai.ChatCompletion.create(model=model, messages=messages, temperature = temperature)
     except:
         print(f'Error getting completion from OpenAI')
 
