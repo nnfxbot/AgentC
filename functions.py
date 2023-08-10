@@ -4,6 +4,7 @@ import json
 import openai
 import streamlit as st
 import pandas as pd
+import traceback
 
 def get_completion(model = "gpt-3.5-turbo", temperature = 0, messages = [], enable_functions = False):
     try:
@@ -38,18 +39,36 @@ def search_web(query, freshness="pm", count = 3):
     except requests.exceptions.RequestException as e:
         print("An error occurred:", e)
 
+def execute(code):
+    """
+    Execute the plugin and display the result on a Streamlit dashboard.
+    The parameters are passed in the form of kwargs
+    """
+    output = StringIO()
+
+    try:
+        global_namespace = {}
+        local_namespace = {}
+        sys.stdout = output
+        exec(code, local_namespace, global_namespace)
+        result = output.getvalue()
+        if not result:
+            st.write('No result written to stdout. Please print result on stdout')
+        else:
+            st.write(result)
+            return {"result": result}
+    except Exception:
+        error = traceback.format_exc()
+        st.write({"error": error})
+    finally:
+        sys.stdout = sys.__stdout__
+
 def handle_function_call(function_call):
     args = json.loads(function_call.arguments)
     if function_call.name == "search_web":
         return search_web(**args)
     elif function_call.name == "python":
-        output = StringIO()
-        global_namespace = {}
-        local_namespace = {}
-        sys.stdout = output
-        exec(args['code'], local_namespace, global_namespace)
-        result = output.get_value()
-        return result
+        return execute(**args)
     else:
         return f'Error calling {function_call.name}'
 
