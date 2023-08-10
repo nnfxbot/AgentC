@@ -27,6 +27,7 @@ with st.sidebar:
         st.session_state.messages = [{"role":"system", "content":st.session_state.system_message}]
     st.session_state.openai_model = st.selectbox("Model", options = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4"])
     st.session_state.max_history = st.slider("Max History", 2, 10, 2, 1)
+    st.session_state.enable_functions = st.checkbox("Enable functions", value = False)
     st.markdown(">## Created by AC ")
     
 st.title("Agent C")
@@ -51,11 +52,7 @@ if prompt := st.chat_input("What is up?"):
 
     with st.chat_message("assistant"):
         model = "gpt-3.5-turbo-16k" if len(str(messages)) > 12000 else st.session_state.openai_model
-        response = openai.ChatCompletion.create(
-            model=model,
-            messages=messages,)
-            #functions = functions,
-            #function_call = "auto")
+        response = get_completion(model = model, messages = messages, enable_functions = st.session_state.enable_functions)
         while response.choices[0].finish_reason == "function_call" or len(messages) > 10:
             function_call = response.choices[0].message.function_call
             st.text(function_call)
@@ -64,11 +61,7 @@ if prompt := st.chat_input("What is up?"):
             messages.append({"role":"function", "name": function_call.name,
                 "content": result})
             model = "gpt-3.5-turbo-16k" if len(str(messages)) > 12000 else st.session_state.openai_model
-            response = openai.ChatCompletion.create(
-                model=model,
-                messages=messages,
-                functions = functions,
-                function_call = "auto")   
+            response = get_completion(model = model, messages = messages, enable_functions = st.session_state.enable_functions)  
         message = response.choices[0].get("message")
         st.markdown(message.content)
         st.json(response, expanded = False)
