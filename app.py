@@ -1,4 +1,3 @@
-import openai
 import streamlit as st
 from functions import *
 import json
@@ -34,7 +33,7 @@ st.title("Agent C")
 #Initialise session state variables
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role":"system","content":sys_msg}]
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
+    st.session_state.openai_model = "gpt-3.5-turbo"
 
 #Display messages in chat history
 messages = st.session_state.messages
@@ -52,13 +51,12 @@ if prompt := st.chat_input("What is up?"):
     with st.chat_message("assistant"):
         model = "gpt-3.5-turbo-16k" if len(str(messages)) > 12000 else st.session_state.openai_model
         response = get_completion(model = model, messages = messages, enable_functions = st.session_state.enable_functions)
-        while response.choices[0].finish_reason == "function_call" or len(messages) > 10:
+        while response.choices[0].finish_reason == "function_call" and len(messages) < 10:
             function_call = response.choices[0].message.function_call
             st.text(function_call)
             result = handle_function_call(function_call)
             st.json(result, expanded = False)
-            messages.append({"role":"function", "name": function_call.name,
-                "content": result})
+            messages.append({"role":"function", "name": function_call.name, "content": result})
             model = "gpt-3.5-turbo-16k" if len(str(messages)) > 12000 else st.session_state.openai_model
             response = get_completion(model = model, messages = messages, enable_functions = st.session_state.enable_functions)  
         message = response.choices[0].get("message")
