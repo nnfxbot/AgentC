@@ -53,9 +53,9 @@ if prompt := st.chat_input("What is up?"):
         model = "gpt-3.5-turbo-16k" if len(str(messages)) > 12000 else st.session_state.openai_model
         response = openai.ChatCompletion.create(
             model=model,
-            messages=messages,
+            messages=messages,)
             #functions = functions,
-            function_call = "auto")
+            #function_call = "auto")
         while response.choices[0].finish_reason == "function_call" or len(messages) > 10:
             function_call = response.choices[0].message.function_call
             st.text(function_call)
