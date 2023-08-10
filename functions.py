@@ -40,19 +40,22 @@ def handle_function_call(function_call):
     args = json.loads(function_call.arguments)
     if function_call.name == "search_web":
         return search_web(**args)
+    elif function_call.name == "python":
+        with st.echo():
+            args.code
     else:
         return f'Error calling {function_call.name}'
 
 functions = [
     {
       "name": "search_web",
-      "description": "Search the web for up to date info, always ask for permission before using this function. Only use this function when specifically asked to search_web. be as comprehensive as you can when responding using as much information from the search results as possible and always include a link to the source and the date of the source if available in the format [url][date].",
+      "description": "Search the web for up to date info. be as comprehensive as you can when responding using as much information from the search results as possible and always include a link to the source and the date of the source if available in the format [url][date].",
       "parameters": {
         "type": "object",
         "properties": {
           "query": {
             "type": "string",
-            "description": "Given the user's question, Write a well-crafted search query that will gather comprehensive and up-to-date information on the users query. Consider using specific keywords and filters to ensure the search results include diverse perspectives and reliable sources. Please provide the search query in a format that maximizes the relevance and accuracy of the information retrieved."
+            "description": "query to search for."
           },
           "freshness": {
             "type": "string",
@@ -60,6 +63,19 @@ functions = [
           }
         },
         "required": ["query"]
+      },
+    {
+      "name": "python",
+      "description":  "Execute python code",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "python code to execute. print output using streamlit functions such as st.write, st.markdown, st.plotly_chart, st.dataframe etc where applicable."
+          }
+        },
+        "required": ["code"]
       }
     }
   ]
