@@ -43,10 +43,37 @@ def handle_function_call(function_call):
     if function_call.name == "search_web":
         return search_web(**args)
     elif function_call.name == "python":
-        with st.echo():
-            args.code
+        output = StringIO()
+        global_namespace = {}
+        local_namespace = {}
+        sys.stdout = output
+        exec(args['code'], local_namespace, global_namespace)
+        result = output.get_value()
+        return result
     else:
         return f'Error calling {function_call.name}'
+
+def execute(self, **kwargs) -> Dict:
+        """
+        Execute the plugin and return a JSON response.
+        The parameters are passed in the form of kwargs
+        """
+        output = StringIO()
+
+        try:
+            global_namespace = {}
+            local_namespace = {}
+            sys.stdout = output
+            exec(kwargs['code'], local_namespace, global_namespace)
+            result = output.getvalue()
+            if not result:
+                return {'error': 'Not result written to stdout. Please print result on stdout'}
+            return {"result": result}
+        except Exception:
+            error = traceback.format_exc()
+            return {"error": error}
+        finally:
+            sys.stdout = sys.__stdout__
 
 functions = [
     {
@@ -75,7 +102,7 @@ functions = [
         "properties": {
           "code": {
             "type": "string",
-            "description": "python code to execute. print output using streamlit functions such as st.write, st.markdown, st.plotly_chart, st.dataframe etc where applicable."
+            "description": "python code to execute. always output"
           }
         },
         "required": ["code"]
