@@ -63,7 +63,8 @@ functions = [
           }
         },
         "required": ["query"]
-      },
+      }
+    },
     {
       "name": "python",
       "description":  "Execute python code",
