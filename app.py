@@ -49,7 +49,7 @@ if prompt := st.chat_input("What is up?"):
         response = openai.ChatCompletion.create(
             model=model,
             messages=messages,
-            functions = functions,
+            #functions = functions,
             function_call = "auto")
         while response.choices[0].finish_reason == "function_call" or len(messages) > 10:
             function_call = response.choices[0].message.function_call
