@@ -12,10 +12,10 @@ def get_completion(model = "gpt-3.5-turbo", temperature = 0, messages = [], enab
     except:
         print(f'Error getting completion from OpenAI')
 
-def search_web(query, freshness="pm"):
+def search_web(query, freshness="pm", count = 3):
     url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
-    params = {"q": query, "freshness": freshness,"text_decorations":"false" }
+    params = {"q": query, "freshness": freshness,"text_decorations":"false" , "count":count}
     try:
         response = requests.get(url, headers=headers, params=params)
         if response.status_code == 200:
