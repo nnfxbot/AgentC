@@ -13,12 +13,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-sys_msg = """
-Role: Investment portfolio manager,
+sys_msg = """Role: Investment portfolio manager,
 Tone: Casual,
 Format: Bullet,
 Length: Concise,
-Audience: CIO
+Audience: CEO
 """
 
 with st.sidebar:
