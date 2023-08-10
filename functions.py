@@ -2,6 +2,15 @@ import requests
 import os
 import json
 
+def get_completion(model = "gpt-3.5-turbo", temperature = 0, messages = [], enable_functions = False):
+    try:
+        if enable_functions:
+            return = openai.ChatCompletion.create(model=model, messages=messages,functions = functions, function_call = "auto", temperature = temperature)
+        else:
+            return = openai.ChatCompletion.create(model=model, messages=messages, temperature = temperature)
+    except:
+        print(f'Error getting completion from OpenAI')
+
 def search_web(query, freshness="pm"):
     url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
