@@ -72,27 +72,6 @@ def handle_function_call(function_call):
     else:
         return f'Error calling {function_call.name}'
 
-def execute(self, **kwargs) -> Dict:
-        """
-        Execute the plugin and return a JSON response.
-        The parameters are passed in the form of kwargs
-        """
-        output = StringIO()
-
-        try:
-            global_namespace = {}
-            local_namespace = {}
-            sys.stdout = output
-            exec(kwargs['code'], local_namespace, global_namespace)
-            result = output.getvalue()
-            if not result:
-                return {'error': 'Not result written to stdout. Please print result on stdout'}
-            return {"result": result}
-        except Exception:
-            error = traceback.format_exc()
-            return {"error": error}
-        finally:
-            sys.stdout = sys.__stdout__
 
 functions = [
     {
