@@ -5,6 +5,7 @@ import openai
 import streamlit as st
 import pandas as pd
 import traceback
+from io import StringIO
 
 def get_completion(model = "gpt-3.5-turbo", temperature = 0, messages = [], enable_functions = False):
     try:
