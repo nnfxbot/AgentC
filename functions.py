@@ -16,10 +16,10 @@ def get_completion(model = "gpt-3.5-turbo", temperature = 0, messages = [], enab
     except:
         print(f'Error getting completion from OpenAI')
 
-def search_web(query, freshness="pm", count = 3):
+def search_web(query, freshness="pm", count = 3, country="AU"):
     url = "https://api.search.brave.com/res/v1/web/search"
     headers = {"X-Subscription-Token": os.getenv("BRAVE_API_KEY")}
-    params = {"q": query, "freshness": freshness,"text_decorations":"false" , "count":count}
+    params = {"q": query, "freshness": freshness,"text_decorations":"false" , "count":count, "country":country}
     try:
         response = requests.get(url, headers=headers, params=params)
         if response.status_code == 200:
@@ -88,6 +88,10 @@ functions = [
           "freshness": {
             "type": "string",
             "description": "Filters search results by when they were discovered. Defaults to pm. The following time deltas are supported: pd Discovered in last 24 hours. pw Discovered in last 7 Days. pm Discovered in last 31 Days. py Discovered in last 365 Days. "
+          },
+          "country": {
+            "type": "string",
+            "description": "country of search can be from the following AU, US "
           }
         },
         "required": ["query"]
